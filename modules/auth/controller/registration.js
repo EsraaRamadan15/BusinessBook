@@ -1,6 +1,8 @@
-const jwt = require("jsonwebtoken")
-const bycrpt = require('bcrypt')
-const userModel = require("../../../DB/models/user")
+import pkg from 'jsonwebtoken';
+const { sign } = pkg;
+
+import { compare } from 'bcrypt'
+import userModel from "../../../DB/models/user.js"
 const signup = async (req, res) => {
     try {
 
@@ -37,11 +39,11 @@ const login = async (req, res) => {
         //     res.status(400).json({ message: "sorry this account is blocked" })
 
         //     } else {
-        const match = await bycrpt.compare(password, user.password)
+        const match = await compare(password, user.password)
         if (!match) {
             res.status(400).json({ message: "email password misMatch" })
         } else {
-            const token = jwt.sign({ id: user._id},process.env.loginToken)
+            const token = sign({ id: user._id},process.env.loginToken)
             const deepCloneUser = JSON.parse(JSON.stringify(user));
              delete deepCloneUser.password
              delete deepCloneUser.follower
@@ -56,4 +58,4 @@ const login = async (req, res) => {
 
 
 }
-module.exports = { signup,login }
+export  { signup,login }

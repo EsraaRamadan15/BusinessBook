@@ -24,4 +24,4 @@ const validation = (schema) => {
 }
 
 
-module.exports = validation
+export default validation

@@ -1,7 +1,8 @@
-const mongoose = require('mongoose')
+import pkg from 'mongoose';
+const { Schema, model } = pkg;
 
   
-const countrySchema = new mongoose.Schema({
+const countrySchema = new Schema({
     nameEn: {
         type: String,
         required: true
@@ -14,5 +15,5 @@ const countrySchema = new mongoose.Schema({
     timestamps: true
 })
 
-const countryModel = mongoose.model('Country', countrySchema)
-module.exports = countryModel
+const countryModel = model('Country', countrySchema)
+export default countryModel

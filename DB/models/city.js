@@ -1,6 +1,8 @@
-const mongoose = require('mongoose')
 
-const citychema = new mongoose.Schema({
+import pkg from 'mongoose';
+const { Schema, model } = pkg;
+
+const citychema = new Schema({
     nameEn: {
         type: String,
         required: true
@@ -9,11 +11,11 @@ const citychema = new mongoose.Schema({
         type: String,
         required: true
     },
-    countryId:  {type: mongoose.Schema.Types.ObjectId, ref: 'Country',required:true} ,
+    countryId:  {type: Schema.Types.ObjectId, ref: 'City',required:true} ,
 }, {
     timestamps: true
 })
 
 
-const cityModel = mongoose.model('City', citychema)
-module.exports = cityModel
+const cityModel = model('City', citychema)
+export default cityModel

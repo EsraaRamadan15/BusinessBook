@@ -1,9 +1,11 @@
-const router = require('express').Router()
+import * as express from 'express';
 
-const lookupController = require("./controller/lookup");
+const router = express.Router();
 
-router.get('/GetAllCountries',lookupController.getAllCountries)
-router.get('/GetAllCitiesByCountry',lookupController.getAllCities)
+import { getAllCountries, getAllCities } from "./controller/lookup.js";
+
+router.get('/GetAllCountries',getAllCountries)
+router.get('/GetAllCitiesByCountry',getAllCities)
 
 
-module.exports = router
+export default router

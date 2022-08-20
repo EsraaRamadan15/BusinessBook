@@ -1,8 +1,8 @@
-const cityModel = require("../../../DB/models/city");
-const countryModel = require("../../../DB/models/country");
+import  cityModel  from "../../../DB/models/city.js";
+import  countryModel from "../../../DB/models/country.js";
 
 const getAllCountries = async (req, res) => {
-    const countries =await  countryModel.find({});
+    const countries =await  countryModel({});
     res.status(200).json({countries})
 }
 
@@ -10,7 +10,7 @@ const getAllCountries = async (req, res) => {
 const getAllCities = async (req, res) => {
     var id = req.query.id;
      console.log(id)
-    const cities =await  cityModel.find({ countryId :req.query.id});
+    const cities =await  cityModel({ countryId :req.query.id});
     res.status(200).json({cities})
 }
-module.exports= {getAllCountries,getAllCities}
+export  {getAllCountries,getAllCities}

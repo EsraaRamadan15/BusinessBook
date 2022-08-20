@@ -1,15 +1,17 @@
-const router = require('express').Router()
 
-const registrationController = require("./controller/registration");
-const validation = require("../../middleware/validation");
-const validators = require("./auth.validation")
+import * as express from 'express';
+const router = express.Router();
 
-router.post('/register', validation(validators.signup),registrationController.signup)
+import { signup, login } from "./controller/registration.js";
+import validation from "../../middleware/validation.js";
+import {  signupValidation , loginValidation  } from "./auth.validation.js";
 
-
-router.post("/login",validation(validators.login) ,registrationController.login)
-
+router.post('/register', validation(signupValidation),signup)
 
 
+router.post("/login",validation(loginValidation) ,login)
 
-module.exports = router
+
+
+
+export default router

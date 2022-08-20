@@ -1,7 +1,8 @@
-const Joi = require('joi')
+import pkg from 'joi';
+const Joi = pkg;
 
 
-const signup = {
+const signupValidation = {
     body: Joi.object().required().keys({
         firstName: Joi.string().required(),
         lastName: Joi.string().required(),
@@ -23,7 +24,7 @@ const signup = {
 }
 
 
-const login = {
+const loginValidation = {
 
     body: Joi.object().required().keys({
         email: Joi.string().email().required(),
@@ -37,5 +38,4 @@ const login = {
 
 
 
-module.exports =
-    { signup, login }
+export  { signupValidation, loginValidation }

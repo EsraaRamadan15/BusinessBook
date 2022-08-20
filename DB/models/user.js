@@ -1,8 +1,9 @@
-const mongoose = require('mongoose')
-const bycrpt = require('bcrypt')
+import pkg from 'mongoose';
+const { Schema, model } = pkg;
+import { hash } from 'bcrypt'
 
   
-const userSchema = new mongoose.Schema({
+const userSchema = new Schema({
     firstName: {
         type: String,
         required: true
@@ -33,7 +34,7 @@ const userSchema = new mongoose.Schema({
     jobTitle:String ,
     specialty: String,
     businessType: String,
-    country:  {type: mongoose.Schema.Types.ObjectId, ref: 'Country'} ,
+    country:  {type: Schema.Types.ObjectId, ref: 'Country'} ,
     city: Number,
     gender: {
         type: String,
@@ -45,16 +46,16 @@ const userSchema = new mongoose.Schema({
     personalImage: String,
     coverImage: String,
     role: { type: String, default: 'User' },
-    follower: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-    following: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+    follower: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    following: [{ type: Schema.Types.ObjectId, ref: 'User' }],
 }, {
     timestamps: true
 })
 
 userSchema.pre('save', async function (next) {
-    this.password = await bycrpt.hash(this.password, parseInt(process.env.saltRound))
+    this.password = await hash(this.password, parseInt(process.env.saltRound))
     next()
 })
 
-const userModel = mongoose.model('User', userSchema)
-module.exports = userModel
+const userModel = model('User', userSchema)
+export default userModel
