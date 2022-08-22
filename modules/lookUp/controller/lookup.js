@@ -9,7 +9,6 @@ const getAllCountries = async (req, res) => {
 
 const getAllCities = async (req, res) => {
     var id = req.query.id;
-     console.log(id)
     const cities =await  cityModel({ countryId :req.query.id});
     res.status(200).json({cities})
 }

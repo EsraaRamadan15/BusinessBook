@@ -16,17 +16,16 @@ const auth = (accessRoles) => {
             if (!headerToken.startsWith(`Bearer `)) {
                 res.status(400).json({ message: "In-valid header Token" })
             } else {
-                console.log({ headerToken });
+               // console.log({ headerToken });
                 const token = headerToken.split(" ")[1];
-                console.log({ token });
 
                 const decoded = verify(token, process.env.loginToken);
                 if (!decoded ) {
                     res.status(400).json({ message: "In-valid  Token" })
                 } else {
-                    console.log(decoded);
+                    //console.log(decoded);
                     const findUser = await userModel.findOne({ _id: decoded.id }).select('role')
-                    console.log(findUser);
+                    //console.log(findUser);
                     if (!findUser) {
                         res.status(404).json({ message: "In-valid  account id" })
                     } else {

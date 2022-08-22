@@ -3,7 +3,7 @@ const { connect } = pkg;
 
 function connectDB() {
     return connect(process.env.DBLink).then((result) => {
-        console.log(`DB connected on ....... ${process.env.DBLink}`);
+        console.log(`DB connected on ....... ${process.env.DBLink2}`);
     }).catch(err => console.log('fail to connect DB', err));
 }
 

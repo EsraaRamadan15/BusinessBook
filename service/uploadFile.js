@@ -55,7 +55,7 @@ function myMulter(customPath, customValidation) {
             }
     
         }
-        console.log(fullPath)
+      
         const upload = multer({ dest: fullPath, limits: { fileSize: 625000 }, fileFilter, storage })
         return upload
     } catch (error) {
