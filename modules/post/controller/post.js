@@ -43,7 +43,7 @@ const getAllPosts = async (req, res) => {
          "Date":obj.createdAt,
         "likesCount":obj.likes.length})
     });
-    res.status(200).json({  mappedPosts })
+    res.status(200).json({ "Posts": mappedPosts })
 }
 
 
