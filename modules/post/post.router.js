@@ -15,6 +15,8 @@ myMulter('/post', fileValdation.image).array('media', 5),HME,   validation(valid
 
 router.post("/reactOnPost",auth(endPoint.createPost),validation(validators.reactPost) ,reactOnPost)
 router.get("/getAllPosts",auth(endPoint.createPost),getAllPosts)
+//router.get("/getAllPosts",auth(endPoint.createPost),getAllPosts)
+
 
 
 

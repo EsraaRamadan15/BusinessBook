@@ -1,9 +1,8 @@
-import { query } from "express";
-import pkg from 'mongoose';
-const { Model } = pkg;
+
 
 import postModel from "../../../DB/models/postModels/post.js";
-import postLikeModel from "../../../DB/models/postModels/postLike.js";
+import userModel from "../../../DB/models/user.js";
+import paginate from "../../../service/paginate.js";
 
 const createPost = async (req, res) => {
     const { title } = req.body
@@ -23,18 +22,28 @@ const createPost = async (req, res) => {
 }
 
 const getAllPosts = async (req, res) => {
- //   const { page, size } = req.query
-   // const { skip, limit } = paginate(page, size)
-    const post = await postModel.find({}).select('_id title media createdAt likes').populate([
-        
+   const { page, size } = req.query
+   const { skip, limit } = paginate(1,10)
+     let userFollowing= await userModel.findById( req.userId ).select('following')
+     userFollowing=userFollowing.following.map(x => x.toString())
+     userFollowing.push(req.userId)
+     const posts = await postModel.find({ "createdBy": { "$in": userFollowing } } ).sort([['createdAt', -1]]).limit(limit).skip(skip).select('_id title media createdAt likes').populate([      
         {
             path: 'createdBy',
             select: "_id  firstName lastName personalImage"
          }
         
     ])
-
-    res.status(200).json({  post })
+    var mappedPosts=[];
+    posts.forEach(function(obj){
+        mappedPosts.push({UserModel :{ "Id": obj.createdBy._id ,"Name" :obj.createdBy.firstName +" "+ obj.createdBy.lastName,"PersonalImage":obj.createdBy.personalImage}, 
+         "Id":obj._id,
+         "Title":obj.title,
+         "Media":obj.media,
+         "Date":obj.createdAt,
+        "likesCount":obj.likes.length})
+    });
+    res.status(200).json({  mappedPosts })
 }
 
 
