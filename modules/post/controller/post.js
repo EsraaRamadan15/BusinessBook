@@ -27,23 +27,23 @@ const getAllPosts = async (req, res) => {
      let userFollowing= await userModel.findById( req.userId ).select('following')
      userFollowing=userFollowing.following.map(x => x.toString())
      userFollowing.push(req.userId)
-     const posts = await postModel.find({ "createdBy": { "$in": userFollowing } } ).sort([['createdAt', -1]]).limit(limit).skip(skip).select('_id title media createdAt likes').populate([      
+     const postsDb = await postModel.find({ "createdBy": { "$in": userFollowing } } ).sort([['createdAt', -1]]).limit(limit).skip(skip).select('_id title media createdAt likes').populate([      
         {
             path: 'createdBy',
             select: "_id  firstName lastName personalImage"
          }
         
     ])
-    var mappedPosts=[];
-    posts.forEach(function(obj){
-        mappedPosts.push({UserModel :{ "Id": obj.createdBy._id ,"Name" :obj.createdBy.firstName +" "+ obj.createdBy.lastName,"PersonalImage":obj.createdBy.personalImage}, 
+    var Posts=[];
+    postsDb.forEach(function(obj){
+        Posts.push({UserModel :{ "Id": obj.createdBy._id ,"Name" :obj.createdBy.firstName +" "+ obj.createdBy.lastName,"PersonalImage":obj.createdBy.personalImage}, 
          "Id":obj._id,
          "Title":obj.title,
          "Media":obj.media,
          "Date":obj.createdAt,
         "likesCount":obj.likes.length})
     });
-    res.status(200).json({ "Posts": mappedPosts })
+    res.status(200).json({ "Posts": Posts })
 }
 
 
