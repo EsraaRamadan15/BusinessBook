@@ -2,6 +2,7 @@ import pkg from 'jsonwebtoken';
 const { verify } = pkg;
 
 import userModel  from "../DB/models/user.js";
+import ResponseModel  from "../general/dto/responseModel.js";
 
 const roles = {
     Admin: "Admin",
@@ -14,23 +15,25 @@ const auth = (accessRoles) => {
         try {
             const headerToken = req.headers['authorization'];
             if (!headerToken.startsWith(`Bearer `)) {
-                res.status(400).json({ message: "In-valid header Token" })
+                let response=new ResponseModel(null,false,"In-valid header Token");
+                res.status(400).json({ response})
             } else {
-               // console.log({ headerToken });
                 const token = headerToken.split(" ")[1];
 
                 const decoded = verify(token, process.env.loginToken);
                 if (!decoded ) {
-                    res.status(400).json({ message: "In-valid  Token" })
+                    let response=new ResponseModel(null,false,"In-valid  Token");
+                    res.status(400).json({ response})
                 } else {
-                    //console.log(decoded);
                     const findUser = await userModel.findOne({ _id: decoded.id }).select('role')
-                    //console.log(findUser);
                     if (!findUser) {
-                        res.status(404).json({ message: "In-valid  account id" })
+                        let response=new ResponseModel(null,false,"In-valid  account id");
+                        res.status(404).json({ response})
                     } else {
                         if (!accessRoles.includes(findUser.role)) {
-                            res.status(401).json({ message: " Not auth  account" })
+
+                            let response=new ResponseModel(null,false," Not auth  account");
+                            res.status(401).json({ response})
 
                         } else {
                             req.userId = decoded.id
@@ -41,8 +44,11 @@ const auth = (accessRoles) => {
                 }
             }
         } catch (error) {
-            res.status(500).json({ message: "catch error", error })
 
+            let response=new ResponseModel(null,false,error);
+            res.status(500).json({response})
+          //  res.status(500).json({ message: "catch error", error })
+            
         }
 
     }

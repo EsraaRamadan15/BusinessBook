@@ -4,11 +4,15 @@ import postModel from "../../../DB/models/postModels/post.js";
 import userModel from "../../../DB/models/user.js";
 import paginate from "../../../service/paginate.js";
 
+import ResponseModel  from "../../../general/dto/responseModel.js";
 const createPost = async (req, res) => {
     const { title } = req.body
     console.log(title)
     if (req.fileErr) {
-        res.status(400).json({ Issuccessd: false, message: "in-valid format" })
+
+        let response=new ResponseModel(null,false, "in-valid format" );
+       // res.status(201).json({ response})
+        res.status(400).json({ response})
     } else {
         const imageURL = [];
         req.files.forEach(file => {
@@ -17,7 +21,10 @@ const createPost = async (req, res) => {
 
         const newPost = new postModel({ title, media: imageURL, createdBy: req.userId })
         const savedPost = await newPost.save()
-        res.status(201).json({ Issuccessd: true })
+
+        let response=new ResponseModel(null,true,"");
+        res.status(201).json({ response})
+       // res.status(201).json({ Issuccessd: true })
     }
 }
 
@@ -43,7 +50,10 @@ const getAllPosts = async (req, res) => {
          "Date":obj.createdAt,
         "likesCount":obj.likes.length})
     });
-    res.status(200).json({ "Posts": Posts })
+
+    let response=new ResponseModel(Posts,true,"");
+    res.status(201).json({ response})
+   // res.status(200).json({ "Posts": Posts })
 }
 
 

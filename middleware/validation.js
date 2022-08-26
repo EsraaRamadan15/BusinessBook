@@ -1,3 +1,5 @@
+import ResponseModel  from "../general/dto/responseModel.js";
+
 const dataMethod = ['body', 'params', 'query', 'file', 'headers']
 const validation = (schema) => {
     return (req, res, next) => {
@@ -13,12 +15,17 @@ const validation = (schema) => {
                 }
             })
             if (validationArr.length) {
-                res.status(400).json({ message: "validation error", validationArr })
+                let response=new ResponseModel(null,false, "validation error",validationArr);
+                res.status(400).json({ response})
+
+               // res.status(400).json({ message: "validation error", validationArr })
             } else {
                 next()
             }
         } catch (error) {
-            res.status(500).json({ message: "catch error", error })
+            let response=new ResponseModel(null,false,error);
+            res.status(500).json({response})
+           // res.status(500).json({ message: "catch error", error })
         }
     }
 }

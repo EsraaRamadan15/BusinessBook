@@ -3,6 +3,8 @@ const { sign } = pkg;
 
 import { compare } from 'bcrypt'
 import userModel from "../../../DB/models/user.js"
+import ResponseModel  from "../../../general/dto/responseModel.js";
+
 const signup = async (req, res) => {
     try {
 
@@ -20,9 +22,12 @@ const signup = async (req, res) => {
             delete deepCloneUser.following
             deepCloneUser.followersNumber = savedUser.follower.length
             deepCloneUser.followingsNumber = savedUser.following.length
-        res.status(201).json({ "user": deepCloneUser })
+
+            let response=new ResponseModel(deepCloneUser,true,"");
+            res.status(201).json({ response})
     } catch (error) {
-        res.json({ message: "catch error", error })
+        let response=new ResponseModel(null,false,error);
+        res.json({ response})
     }
 }
 
@@ -30,28 +35,25 @@ const login = async (req, res) => {
     const { email, password, deviceToken } = req.body;
     const user = await userModel.findOne({ email });
     if (!user) {
-        res.status(404).json({ message: "in-valid account email" })
+        let response=new ResponseModel(null,false,"in-valid account email");
+        res.status(404).json({response})
     } else {
-        // if (!user.confirmEmail) {
-        //     res.status(400).json({ message: "plz confirm u email first" })
-        // } else {
-        //     if (user.isBlooked) {
-        //     res.status(400).json({ message: "sorry this account is blocked" })
 
-        //     } else {
         const match = await compare(password, user.password)
         if (!match) {
-            res.status(400).json({ message: "email password misMatch" })
+            let response=new ResponseModel(null,false,"email password misMatch");
+            res.status(400).json({response})
         } else {
             const token = sign({ id: user._id},process.env.loginToken)
             const deepCloneUser = JSON.parse(JSON.stringify(user));
              delete deepCloneUser.password
              delete deepCloneUser.follower
              delete deepCloneUser.following
-            deepCloneUser.followersNumber = user.follower.length
+             deepCloneUser.followersNumber = user.follower.length
              deepCloneUser.followingsNumber = user.following.length
-            res.status(200).json({ token ,
-                "user": deepCloneUser} )
+            let result = {"token" :token,"user":deepCloneUser}
+             let response=new ResponseModel(result,true,"");
+             res.status(200).json({response} )
         }
     }
 
