@@ -16,13 +16,13 @@ myMulter('/post', fileValdation.image).array('media', 5),HME,   validation(valid
 
 router.post("/reactOnPost",auth(endPoint.createPost),validation(validators.reactPost) ,reactOnPost)
 router.get("/getAllPosts",auth(endPoint.createPost),getAllPosts)
-router.get("/getAllReactsPerPost",auth(endPoint.createPost),GetAllCommentsPerPosts)
+router.get("/getAllReactsPerPost",auth(endPoint.createPost),GetAllReactsPerPosts)
 
 
 router.post("/addCommentOnPost",auth(endPoint.createPost),AddCommentOnPost)
 router.patch("/editComment",auth(endPoint.createPost),EditComment)
 router.delete("/deleteComment",auth(endPoint.createPost),DeleteComment)
-router.get("/getAllCommentsPerPost",auth(endPoint.createPost),GetAllReactsPerPosts)
+router.get("/getAllCommentsPerPost",auth(endPoint.createPost),GetAllCommentsPerPosts)
 
 
 

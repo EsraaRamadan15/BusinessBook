@@ -46,7 +46,7 @@ const DeleteComment = async (req, res) => {
 }
 
 const GetAllCommentsPerPosts = async (req, res) => {
-    const { page, size ,postId} = req.query
+    const { postId,page, size } = req.query;
     const { skip, limit } = paginate(page,size)
       const commentsDb = await postCommentModel.find({ postId: postId} ).sort([['createdAt', -1]]).limit(limit).skip(skip).select('_id  comment createdAt ').populate([      
          {
@@ -64,7 +64,6 @@ const GetAllCommentsPerPosts = async (req, res) => {
              new UserDataModel(obj.createdBy._id,obj.createdBy.firstName +" "+ obj.createdBy.lastName,obj.createdBy.personalImage))
         )
      });
-     console.log(comments)
  
      res.status(200).json(new ResponseModel(comments,true,""))
  }
