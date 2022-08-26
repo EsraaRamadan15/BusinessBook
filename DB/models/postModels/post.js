@@ -6,6 +6,7 @@ const postSchema = new Schema({
     title: String,
     media: Array,
     likes: [{ type: Schema.Types.ObjectId, ref: "PostLike" }],
+    comments: [{ type: Schema.Types.ObjectId, ref: "PostLike" }],
     createdBy:  {type: Schema.Types.ObjectId, ref: 'User',required:true} ,
 
     }, 

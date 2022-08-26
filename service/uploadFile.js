@@ -3,10 +3,9 @@ const multer = pkg;
 
 import { join,dirname } from "path"
 import { fileURLToPath } from 'url';
-
-
 import { nanoid } from "nanoid"
 import { existsSync, mkdirSync } from 'fs'
+import ResponseModel  from "../general/dto/responseModel.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -17,7 +16,7 @@ const fileValdation = {
 }
 const HME = (err, req, res, next) => {
     if (err) {
-        res.status(400).json({ message: "multer err", err })
+        res.status(400).json(new ResponseModel(null,false,err.toString()))
     } else {
         next()
     }

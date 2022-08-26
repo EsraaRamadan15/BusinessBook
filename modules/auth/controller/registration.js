@@ -3,7 +3,10 @@ const { sign } = pkg;
 
 import { compare } from 'bcrypt'
 import userModel from "../../../DB/models/user.js"
-import ResponseModel  from "../../../general/dto/responseModel.js";
+import handleDBError from "../../../service/handleError.js";
+import ResponseModel from "../../../general/dto/responseModel.js";
+import User from "../dto/user.js";
+
 
 const signup = async (req, res) => {
     try {
@@ -15,49 +18,41 @@ const signup = async (req, res) => {
             jobTitle, specialty, businessType, city, country, personalImage, coverImage, address
         })
 
-        const savedUser = await newUser.save()
-        const deepCloneUser = JSON.parse(JSON.stringify(savedUser));
-            delete deepCloneUser.password
-            delete deepCloneUser.follower
-            delete deepCloneUser.following
-            deepCloneUser.followersNumber = savedUser.follower.length
-            deepCloneUser.followingsNumber = savedUser.following.length
+        const savedUser = await newUser.save();
+        let user = new User(savedUser.firstName, savedUser.lastName, savedUser.email, savedUser.deviceToken, savedUser.birthDate,
+            savedUser.phone, savedUser.jobTitle, savedUser.specialty, savedUser.businessType, savedUser.country,
+            savedUser.city, savedUser.gender, savedUser.address, savedUser.personalImage, savedUser.coverImage);
 
-            let response=new ResponseModel(deepCloneUser,true,"");
-            res.status(201).json({ response})
+        res.json(new ResponseModel(user, true, ""))
     } catch (error) {
-        let response=new ResponseModel(null,false,error);
-        res.json({ response})
+        let message = handleDBError(req, error);
+        res.json(new ResponseModel(null, false, message))
     }
 }
 
 const login = async (req, res) => {
     const { email, password, deviceToken } = req.body;
-    const user = await userModel.findOne({ email });
-    if (!user) {
-        let response=new ResponseModel(null,false,"in-valid account email");
-        res.status(404).json({response})
+    const savedUser = await userModel.findOne({ email });
+    if (!savedUser) {
+        res.status(404).json(new ResponseModel(null, false, "in-valid account email"))
     } else {
 
-        const match = await compare(password, user.password)
+        const match = await compare(password, savedUser.password)
         if (!match) {
-            let response=new ResponseModel(null,false,"email password misMatch");
-            res.status(400).json({response})
+            res.status(400).json(new ResponseModel(null, false, "email password misMatch"))
         } else {
-            const token = sign({ id: user._id},process.env.loginToken)
-            const deepCloneUser = JSON.parse(JSON.stringify(user));
-             delete deepCloneUser.password
-             delete deepCloneUser.follower
-             delete deepCloneUser.following
-             deepCloneUser.followersNumber = user.follower.length
-             deepCloneUser.followingsNumber = user.following.length
-            let result = {"token" :token,"user":deepCloneUser}
-             let response=new ResponseModel(result,true,"");
-             res.status(200).json({response} )
+            const token = sign({ id: savedUser._id }, process.env.loginToken)
+            let LogedInuser = new User(savedUser.firstName, savedUser.lastName, savedUser.email, savedUser.deviceToken, savedUser.birthDate,
+                savedUser.phone, savedUser.jobTitle, savedUser.specialty, savedUser.businessType, savedUser.country,
+                savedUser.city, savedUser.gender, savedUser.address, savedUser.personalImage, savedUser.coverImage);
+                LogedInuser.followersNumber = savedUser.follower.length
+                LogedInuser.followingsNumber = savedUser.following.length
+            let result = { "token": token, "user": LogedInuser }
+            res.status(200).json( new ResponseModel(result, true, ""))
         }
     }
 
 
 
 }
-export  { signup,login }
+export { signup, login }

@@ -1,0 +1,18 @@
+{
+   "General": {
+      "InvalidFormat": "in-valid file format"
+   },
+   "Authorization": {
+      "InvalidBearer": "In-valid header Token",
+      "InvalidToken":"In-valid  Token",
+      "InvalidAccountId":"In-valid  account id",
+      "NoAccount":"Not auth  account"
+   },
+   "User": {
+      "user_exist": "This email is used before"
+   },
+   "Post": {
+      "un_Authorized_edit": "User unauthorized to edit",
+      "un_Authorized_delete": "User unauthorized to delete"
+   }
+}

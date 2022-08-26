@@ -15,17 +15,12 @@ const validation = (schema) => {
                 }
             })
             if (validationArr.length) {
-                let response=new ResponseModel(null,false, "validation error",validationArr);
-                res.status(400).json({ response})
-
-               // res.status(400).json({ message: "validation error", validationArr })
+                res.status(400).json(new ResponseModel(null,false, "validation error"))
             } else {
                 next()
             }
         } catch (error) {
-            let response=new ResponseModel(null,false,error);
-            res.status(500).json({response})
-           // res.status(500).json({ message: "catch error", error })
+            res.status(500).json(new ResponseModel(null,false,error.toString()))
         }
     }
 }

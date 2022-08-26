@@ -1,0 +1,18 @@
+{
+  "General": {
+    "InvalidFormat": "in-valid file format"
+ },
+ "Authorization": {
+    "InvalidBearer": "In-valid header Token",
+    "InvalidToken":"In-valid  Token",
+    "InvalidAccountId":"In-valid  account id",
+    "NoAccount":"Not auth  account"
+ },
+  "User" :{    
+     "user_exist":"تم استخدام هذا البريد الإلكتروني من قبل"
+   },
+   "Post": {
+      "un_Authorized_edit": "المستخدم الحالي غير مصرح له بالتعديل",
+      "un_Authorized_delete":  "المستخدم الحالي غير مصرح له بالمسح"
+   }
+}
