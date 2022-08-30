@@ -8,10 +8,9 @@ import {  signupValidation , loginValidation  } from "./auth.validation.js";
 
 router.post('/register', validation(signupValidation),signup)
 
-
 router.post("/login",validation(loginValidation) ,login)
 router.post("/sendCode",sendCode)
-router.post("/forgetPassword",forgetPassword)
+router.patch("/forgetPassword",forgetPassword)
 
 
 
