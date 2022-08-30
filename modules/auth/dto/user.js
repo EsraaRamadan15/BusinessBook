@@ -17,8 +17,9 @@ let User =class  {
     coverImage;
     followersNumber=0;
     followingsNumber=0
-    constructor(firstName, lastName, email,deviceToken,birthDate,phone,jobTitle,specialty,
+    constructor(id,firstName, lastName, email,deviceToken,birthDate,phone,jobTitle,specialty,
         businessType,country,city,gender,address,personalImage,coverImage) {
+            this.id=id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;

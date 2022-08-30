@@ -19,7 +19,7 @@ const signup = async (req, res) => {
         })
 
         const savedUser = await newUser.save();
-        let user = new User(savedUser.firstName, savedUser.lastName, savedUser.email, savedUser.deviceToken, savedUser.birthDate,
+        let user = new User(savedUser._id,savedUser.firstName, savedUser.lastName, savedUser.email, savedUser.deviceToken, savedUser.birthDate,
             savedUser.phone, savedUser.jobTitle, savedUser.specialty, savedUser.businessType, savedUser.country,
             savedUser.city, savedUser.gender, savedUser.address, savedUser.personalImage, savedUser.coverImage);
 
@@ -42,7 +42,7 @@ const login = async (req, res) => {
             res.status(400).json(new ResponseModel(null, false, "email password misMatch"))
         } else {
             const token = sign({ id: savedUser._id }, process.env.loginToken)
-            let LogedInuser = new User(savedUser.firstName, savedUser.lastName, savedUser.email, savedUser.deviceToken, savedUser.birthDate,
+            let LogedInuser = new User(savedUser._id,savedUser.firstName, savedUser.lastName, savedUser.email, savedUser.deviceToken, savedUser.birthDate,
                 savedUser.phone, savedUser.jobTitle, savedUser.specialty, savedUser.businessType, savedUser.country,
                 savedUser.city, savedUser.gender, savedUser.address, savedUser.personalImage, savedUser.coverImage);
                 LogedInuser.followersNumber = savedUser.follower.length
