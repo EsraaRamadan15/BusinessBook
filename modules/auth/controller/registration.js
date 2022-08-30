@@ -1,11 +1,12 @@
 import pkg from 'jsonwebtoken';
 const { sign } = pkg;
 
-import { compare } from 'bcrypt'
+import { compare ,hash} from 'bcrypt'
 import userModel from "../../../DB/models/user.js"
 import handleDBError from "../../../service/handleError.js";
 import ResponseModel from "../../../general/dto/responseModel.js";
 import User from "../dto/user.js";
+import sendEmail from '../../../service/email.js';
 
 
 const signup = async (req, res) => {
@@ -57,22 +58,45 @@ const login = async (req, res) => {
 }
 
 
-// const sendCode = async (req, res) => {
-//     try {
-//         const { email } = req.body;
-//         const user = await userModel.findOne({ email });
-//         if (!user) {
-//             res.status(404).json({ message: 'in-valid email' })
-//         } else {
-//             const code = Math.floor(Math.random() * (9999 - 1000 + 1) + 1000) //4589
-//             await userModel.findByIdAndUpdate(user._id, { code })
-//             sendEmail(user.email, `<p>use this code to update u password : ${code}</p>`)
-//             res.json(new ResponseModel(code, true, message))
-//         }
-//     } catch (error) {
-//         let message = handleDBError(req, error);
-//         res.json(new ResponseModel(null, false, message))
-//     }
+const sendCode = async (req, res) => {
+    try {
+        const { email } = req.body;
+        const user = await userModel.findOne({ email });
+        if (!user) {
+            res.json(new ResponseModel(null, fasle, "in-valid email"))
+        } else {
+            const code = Math.floor(Math.random() * (9999 - 1000 + 1) + 1000) //4589
+            console.log(code)
+            await userModel.findByIdAndUpdate(user._id, { code })
+            sendEmail("Password Verification",user.email, `<p>use this code to update u password : ${code}</p>`)
+            res.json(new ResponseModel(code, true, ""))
+        }
+    } catch (error) {
+        console.log(error)
+        let message = handleDBError(req, error);
+        res.json(new ResponseModel(null, false, message))
+    }
 
-// }
-export { signup, login }
+}
+
+const forgetPassword = async (req, res) => {
+    try {
+        const { code, email, newPassword } = req.body;
+        const user = await userModel.findOne({ email });
+        if (!user) {
+            res.json(new ResponseModel(null, false, "in-valid email"))
+        } else {
+            if (user.code != code) {
+                res.json(new ResponseModel(null, false, "In-valid auth code"))
+
+            } else {
+                const hashedPassword = await hash(newPassword, parseInt(process.env.saltRound))
+                await userModel.findOneAndUpdate({ _id: user._id }, { password: hashedPassword, code: "" })
+                res.json(new ResponseModel(null, true, ""))
+            }
+        }
+    } catch (error) {
+        res.status(500).json(new ResponseModel(null, false, error.toString()))
+    }
+}
+export { signup, login,sendCode,forgetPassword }
