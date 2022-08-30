@@ -55,4 +55,24 @@ const login = async (req, res) => {
 
 
 }
+
+
+// const sendCode = async (req, res) => {
+//     try {
+//         const { email } = req.body;
+//         const user = await userModel.findOne({ email });
+//         if (!user) {
+//             res.status(404).json({ message: 'in-valid email' })
+//         } else {
+//             const code = Math.floor(Math.random() * (9999 - 1000 + 1) + 1000) //4589
+//             await userModel.findByIdAndUpdate(user._id, { code })
+//             sendEmail(user.email, `<p>use this code to update u password : ${code}</p>`)
+//             res.json(new ResponseModel(code, true, message))
+//         }
+//     } catch (error) {
+//         let message = handleDBError(req, error);
+//         res.json(new ResponseModel(null, false, message))
+//     }
+
+// }
 export { signup, login }
