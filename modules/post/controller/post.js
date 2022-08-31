@@ -33,13 +33,24 @@ const getAllPosts = async (req, res) => {
         {
             path: 'createdBy',
             select: "_id  firstName lastName personalImage"
+         },{
+            path: 'likes',
+            match: {
+                userId: req.userId
+            },
+            select: "react"
          }
         
     ])
     var Posts=[];
     postsDb.forEach(function(obj){
+        let selfReact=null;
+        if (obj.likes.length >0)
+        {
+            selfReact=obj.likes[0].react;
+        }
         Posts.push(
-        new Post(obj._id,obj.title,obj.media,obj.createdAt,obj.likes.length,obj.comments.length,
+        new Post(obj._id,obj.title,obj.media,obj.createdAt,obj.likes.length,obj.comments.length,selfReact,
             new UserDataModel(obj.createdBy._id,obj.createdBy.firstName +" "+ obj.createdBy.lastName,obj.createdBy.personalImage))
        )
     });
