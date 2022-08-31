@@ -15,7 +15,7 @@ const validation = (schema) => {
                 }
             })
             if (validationArr.length) {
-                res.status(400).json(new ResponseModel(null,false, "validation error"))
+                res.status(400).json(new ResponseModel(validationArr,false, "validation error"))
             } else {
                 next()
             }

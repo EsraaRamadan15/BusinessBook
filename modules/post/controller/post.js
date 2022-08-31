@@ -19,7 +19,7 @@ const createPost = async (req, res) => {
 
         const newPost = new postModel({ title, media: imageURL, createdBy: req.userId })
         const savedPost = await newPost.save()
-        res.status(201).json(new ResponseModel(null,true,""))
+        res.status(201).json(new ResponseModel(true,true,""))
     }
 }
 
