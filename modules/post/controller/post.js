@@ -8,18 +8,34 @@ import ResponseModel  from "../../../general/dto/responseModel.js";
 import Post  from "../dto/post.js";
 import UserDataModel from "../../../general/dto/userDataModel.js";
 const createPost = async (req, res) => {
-    const { title } = req.body
+    //const { title } = req.body
     if (req.fileErr) {
-        res.status(400).json(new ResponseModel(req.body,false, req.t('InvalidFormat')  ))
+        res.status(400).json(new ResponseModel(req.file,false, req.t('InvalidFormat')  ))
     } else {
+        console.log(req.file)
         const imageURL = [];
-        req.files.forEach(file => {
-            imageURL.push(`${req.finalDestination}/${file.filename}`)
-        });
-
-        const newPost = new postModel({ title, media: imageURL, createdBy: req.userId })
+        // req.files.forEach(file => {
+        //     imageURL.push(`${req.finalDestination}/${file.filename}`)
+        // });
+        imageURL.push(`${req.file.finalDestination}/${req.file.filename}`)
+        const newPost = new postModel({ title:"xxxx", media: imageURL, createdBy: req.userId })
         const savedPost = await newPost.save()
         res.status(201).json(new ResponseModel(true,true,""))
+    }
+}
+
+const UploadFile = async (req, res) => {
+    //const { title } = req.body
+    if (req.fileErr) {
+        res.status(400).json(new ResponseModel(req.file,false, req.t('InvalidFormat')  ))
+    } else {
+        console.log(req.file)
+        const imageURL = [];
+        // req.files.forEach(file => {
+        //     imageURL.push(`${req.finalDestination}/${file.filename}`)
+        // });
+        imageURL.push(`${req.file.finalDestination}/${req.file.filename}`)
+        res.status(201).json(new ResponseModel(req.file,true,""))
     }
 }
 
@@ -59,4 +75,4 @@ const getAllPosts = async (req, res) => {
 }
 
 
-export { createPost ,getAllPosts}
+export { createPost ,getAllPosts,UploadFile}
