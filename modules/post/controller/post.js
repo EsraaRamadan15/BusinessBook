@@ -8,16 +8,15 @@ import ResponseModel  from "../../../general/dto/responseModel.js";
 import Post  from "../dto/post.js";
 import UserDataModel from "../../../general/dto/userDataModel.js";
 const createPost = async (req, res) => {
-    //const { title } = req.body
+    const { title } = req.body
     if (req.fileErr) {
         res.status(400).json(new ResponseModel(req.file,false, req.t('InvalidFormat')  ))
     } else {
-        console.log(req.file)
+        //console.log(req.file)
         const imageURL = [];
-        // req.files.forEach(file => {
-        //     imageURL.push(`${req.finalDestination}/${file.filename}`)
-        // });
-        imageURL.push(`${req.file.finalDestination}/${req.file.filename}`)
+        req.files.forEach(file => {
+            imageURL.push(`${req.finalDestination}/${file.filename}`)
+        });
         const newPost = new postModel({ title:"xxxx", media: imageURL, createdBy: req.userId })
         const savedPost = await newPost.save()
         res.status(201).json(new ResponseModel(true,true,""))

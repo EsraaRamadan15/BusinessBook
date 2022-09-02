@@ -23,6 +23,8 @@ const HME = (err, req, res, next) => {
 }
 
 function myMulter(customPath, customValidation) {
+    console.log(customValidation)
+    
     try {
         if (!customPath) {
             customPath = 'general'
@@ -45,8 +47,7 @@ function myMulter(customPath, customValidation) {
         })
       
         // const fileFilter = function (req, file, cb) {
-           
-    
+
         //     if (customValidation.includes(file.mimetype)) {
         //         cb(null, true)
         //     } else {

@@ -10,10 +10,10 @@ import { GetAllReactsPerPosts, reactOnPost } from "./controller/postLike.js";
 import validation from "../../middleware/validation.js";
 import * as validators from "./post.validation.js";
 
-// router.post('/addPost',  auth(endPoint.createPost), 
-// myMulter('/post', fileValdation.image).array('media', 5),HME,   validation(validators.createPost),createPost)
-router.post('/uploadFile',
-myMulter('/post', fileValdation.image).single('media'),  UploadFile)
+router.post('/addPost',  auth(endPoint.createPost), 
+ myMulter('/post', fileValdation.image).array('media', 5),HME,   validation(validators.createPost),createPost)
+// router.post('/uploadFile',
+// myMulter('/post', fileValdation.image).single('media'),  UploadFile)
 
 router.post("/reactOnPost",auth(endPoint.createPost),validation(validators.reactPost) ,reactOnPost)
 router.get("/getAllPosts",auth(endPoint.createPost),getAllPosts)
