@@ -16,7 +16,7 @@ const fileValdation = {
 }
 const HME = (err, req, res, next) => {
     if (err) {
-        res.status(400).json(new ResponseModel(err,false,err.toString()))
+        res.status(400).json(new ResponseModel(req.file,false,err.toString()))
     } else {
         next()
     }
@@ -55,7 +55,7 @@ function myMulter(customPath, customValidation) {
     
         }
       
-        const upload = multer({ dest: fullPath, limits: { fileSize: 625000 }, fileFilter, storage })
+        const upload = multer({ dest: fullPath, limits: { fileSize: 6250000 }, fileFilter, storage })
         return upload
     } catch (error) {
         res.status(500).json(new ResponseModel(null,false,error.toString()));
