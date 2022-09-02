@@ -44,21 +44,22 @@ function myMulter(customPath, customValidation) {
             }
         })
       
-        const fileFilter = function (req, file, cb) {
+        // const fileFilter = function (req, file, cb) {
+           
     
-            if (customValidation.includes(file.mimetype)) {
-                cb(null, true)
-            } else {
-                req.fileErr = true
-                cb(null, false)
-            }
+        //     if (customValidation.includes(file.mimetype)) {
+        //         cb(null, true)
+        //     } else {
+        //         req.fileErr = true
+        //         cb(null, false)
+        //     }
     
-        }
+        // }
       
-        const upload = multer({ dest: fullPath, limits: { fileSize: 6250000 }, fileFilter, storage })
+        const upload = multer({ dest: fullPath, limits: { fileSize: 6250000 }, storage })
         return upload
     } catch (error) {
-        res.status(500).json(new ResponseModel(null,false,error.toString()));
+        res.status(500).json(new ResponseModel(error,false,error.toString()));
     }
    
 }
