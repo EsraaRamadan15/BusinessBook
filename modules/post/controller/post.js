@@ -17,7 +17,7 @@ const createPost = async (req, res) => {
         req.files.forEach(file => {
             imageURL.push(`${req.finalDestination}/${file.filename}`)
         });
-        const newPost = new postModel({ title:"xxxx", media: imageURL, createdBy: req.userId })
+        const newPost = new postModel({ title, media: imageURL, createdBy: req.userId })
         const savedPost = await newPost.save()
         res.status(201).json(new ResponseModel(true,true,""))
     }
