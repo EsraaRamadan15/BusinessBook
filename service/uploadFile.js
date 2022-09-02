@@ -16,7 +16,7 @@ const fileValdation = {
 }
 const HME = (err, req, res, next) => {
     if (err) {
-        res.status(400).json(new ResponseModel(null,false,err.toString()))
+        res.status(400).json(new ResponseModel(err,false,err.toString()))
     } else {
         next()
     }
