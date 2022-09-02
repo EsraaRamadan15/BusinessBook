@@ -40,7 +40,7 @@ const UploadFile = async (req, res) => {
 
 const getAllPosts = async (req, res) => {
    const { page, size } = req.query
-   const { skip, limit } = paginate(page,size)
+   const { skip, limit } = paginate(1,100)
      let userFollowing= await userModel.findById( req.userId ).select('following')
      userFollowing=userFollowing.following.map(x => x.toString())
      userFollowing.push(req.userId)
