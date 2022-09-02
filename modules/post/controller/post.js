@@ -10,7 +10,7 @@ import UserDataModel from "../../../general/dto/userDataModel.js";
 const createPost = async (req, res) => {
     const { title } = req.body
     if (req.fileErr) {
-        res.json(new ResponseModel(req.fileErr,false, req.t('InvalidFormat')  ))
+        res.json(new ResponseModel(req.files,false, req.t('InvalidFormat')  ))
     } else {
         const imageURL = [];
         req.files.forEach(file => {
