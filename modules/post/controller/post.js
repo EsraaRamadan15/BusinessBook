@@ -59,13 +59,14 @@ const getAllPosts = async (req, res) => {
     ])
     var Posts=[];
     postsDb.forEach(function(obj){
-        let selfReact=null;
+        let selfReact=null,reactId=null;;
         if (obj.likes.length >0)
         {
             selfReact=obj.likes[0].react;
+            reactId=obj.likes[0]._id;
         }
         Posts.push(
-        new Post(obj._id,obj.title,obj.media,obj.createdAt,obj.likes.length,obj.comments.length,selfReact,
+        new Post(obj._id,obj.title,obj.media,obj.createdAt,obj.likes.length,obj.comments.length,selfReact,reactId,
             new UserDataModel(obj.createdBy._id,obj.createdBy.firstName +" "+ obj.createdBy.lastName,obj.createdBy.personalImage))
        )
     });

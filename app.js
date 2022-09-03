@@ -1,7 +1,5 @@
 
 import * as env from 'dotenv';
-
-
 import express, { json } from 'express';
 import { authRouter, lookupeRouter, postRouter } from './modules/allRoutes.js';
 import connectDB from './DB/connection.js';
