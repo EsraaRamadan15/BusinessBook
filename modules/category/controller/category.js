@@ -31,7 +31,7 @@ const getAllCateogries = async (req, res) => {
       }else{
         name ='nameEn';
       }
-      cateogriesDb = await categoryModel.find({  } ).sort([[''+name+'', -1]]).limit(limit).skip(skip).select('_id '+name+' image')
+      cateogriesDb = await categoryModel.find({  } ).sort([[''+name+'', 1]]).limit(limit).skip(skip).select('_id '+name+' image')
 
        var categories=[];
        cateogriesDb.forEach(function(obj){

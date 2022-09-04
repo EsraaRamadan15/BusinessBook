@@ -11,9 +11,9 @@ import * as validators from "./category.validation.js";
 router.post('/addCategory',   
  myMulter('/category', fileValdation.image).single('image'),HME,   validation(validators.createCateogry),createCateogry)
 
-router.get("/getAllCateogries",getAllCateogries)
+//router.get("/getAllCateogries",getAllCateogries)
 
-//router.get("/getAllCategories",auth(userAuthorization.endPoint),getAllCateogries)
+router.get("/getAllCategories",auth(userAuthorization.endPoint),getAllCateogries)
 
 
 
