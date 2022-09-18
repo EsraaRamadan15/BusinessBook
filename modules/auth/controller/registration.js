@@ -92,7 +92,7 @@ const forgetPassword = async (req, res) => {
             } else {
                 const hashedPassword = await hash(newPassword, parseInt(process.env.saltRound))
                 await userModel.findOneAndUpdate({ _id: user._id }, { password: hashedPassword, code: "" })
-                res.json(new ResponseModel(null, true, ""))
+                res.json(new ResponseModel(true, true, ""))
             }
         }
     } catch (error) {
