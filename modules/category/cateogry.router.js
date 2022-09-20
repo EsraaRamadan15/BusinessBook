@@ -20,6 +20,7 @@ router.get("/getAllCategories",auth(userAuthorization.endPoint),getAllCateogries
 
 router.post('/addService',   auth(userAuthorization.endPoint),
  myMulter('/service', fileValdation.image).array('images',5),HME,   validation(validators.createService),createService)
+ 
  router.post("/getAllServices",auth(userAuthorization.endPoint),getAllServices)
 
 
