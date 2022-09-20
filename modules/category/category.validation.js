@@ -8,7 +8,18 @@ const createCateogry = {
     })
 }
 
+const createService = {
+
+    body: Joi.object().required().keys({
+        title: Joi.string().required(),
+        price: Joi.number().required(),
+        description: Joi.string().allow(null, ''),
+        images:Joi.array().allow(null, ''),
+        cityId: Joi.string().allow(null, ''),
+        categoryId : Joi.string().allow(null, '')
+    })
+}
 
 export  {
-    createCateogry
+    createCateogry,createService
 }
