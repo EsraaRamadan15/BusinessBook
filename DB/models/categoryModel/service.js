@@ -8,7 +8,7 @@ const serviceSchema = new Schema({
     price: {type: Number,required:true} ,
     images: Array,
     categoryId:  {type: Schema.Types.ObjectId, ref: 'Category',required:true} ,
-    cityId:  {type: Schema.Types.ObjectId, ref: 'City',required:false} ,
+    cityId:  {type: Schema.Types.ObjectId, ref: 'City'} ,
     }, 
      {
     timestamps: true

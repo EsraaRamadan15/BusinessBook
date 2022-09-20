@@ -12,7 +12,7 @@ const createService = async (req, res) => {
         req.files.forEach(file => {
             imagesURL.push(`${req.finalDestination}/${file.filename}`)
         });
-        const newService = new serviceModel({ title, images: imagesURL, description, price, cityId, categoryId })
+        const newService = new serviceModel({ title, images: imagesURL, description, price, cityId:cityId?.trim(), categoryId :categoryId?.trim()})
         const savedService = await newService.save()
         res.status(201).json(new ResponseModel(true, true, ""))
     }
