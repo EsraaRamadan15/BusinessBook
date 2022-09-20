@@ -15,7 +15,7 @@ const createService = {
         price: Joi.number().required(),
         description: Joi.string().allow(null, ''),
         images:Joi.array().allow(null, ''),
-        cityId: Joi.string().allow(null, ''),
+        cityId: Joi.string().allow(null),
         categoryId : Joi.string().allow(null, '')
     })
 }
