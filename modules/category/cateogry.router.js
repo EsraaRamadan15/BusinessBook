@@ -7,7 +7,7 @@ import { userAuthorization } from "../../general/authorization/authorize.endpoin
 import { createCateogry,getAllCateogries} from "./controller/category.js";
 import validation from "../../middleware/validation.js";
 import * as validators from "./category.validation.js";
-import { createService ,getAllServices} from './controller/service.js';
+import { createService ,getAllServices,getServiceDetails} from './controller/service.js';
 
 router.post('/addCategory',   
  myMulter('/category', fileValdation.image).single('image'),HME,   validation(validators.createCateogry),createCateogry)
@@ -22,6 +22,8 @@ router.post('/addService',   auth(userAuthorization.endPoint),
  myMulter('/service', fileValdation.image).array('images',5),HME,   validation(validators.createService),createService)
  
  router.post("/getAllServices",auth(userAuthorization.endPoint),getAllServices)
+
+ router.get("/getServiceDetails",auth(userAuthorization.endPoint),getServiceDetails)
 
 
 

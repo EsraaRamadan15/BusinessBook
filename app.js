@@ -1,7 +1,7 @@
 
 import * as env from 'dotenv';
 import express, { json } from 'express';
-import { authRouter, lookupeRouter, postRouter,categoryRouter } from './modules/allRoutes.js';
+import { authRouter, lookupeRouter, postRouter,categoryRouter ,userRouter} from './modules/allRoutes.js';
 import connectDB from './DB/connection.js';
 import i18next from 'i18next';
 import Backend from 'i18next-fs-backend';
@@ -25,7 +25,7 @@ i18next.use(Backend).use(Middleware.LanguageDetector).init({
 app.use(Middleware.handle(i18next))
 app.use(json())
 app.use('/uploads', express.static(join(__dirname, './uploads')))
-app.use(authRouter,lookupeRouter,postRouter,categoryRouter)
+app.use(authRouter,lookupeRouter,postRouter,categoryRouter,userRouter)
 connectDB()
 app.get('/', (req, res) => res.send('Hello World!'))
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))

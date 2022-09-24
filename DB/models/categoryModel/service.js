@@ -9,6 +9,8 @@ const serviceSchema = new Schema({
     images: Array,
     categoryId:  {type: Schema.Types.ObjectId, ref: 'Category',required:true} ,
     cityId:  {type: Schema.Types.ObjectId, ref: 'City'} ,
+    publisherId:  {type: Schema.Types.ObjectId, ref: 'User',required:true} ,
+
     }, 
      {
     timestamps: true

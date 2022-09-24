@@ -15,4 +15,32 @@ let Service =class  {
         
     }
 }
-export default Service
+
+let ServiceDetails =class{
+    id
+    title;
+    decription;
+    price;
+    images;
+    publisherModel;
+    city;
+    isFollow;
+    isSelfPublished;
+    constructor(id, title,decription,price,images,publisherModel,city,isFollow,isSelfPublished) {
+        this.id = id;
+        this.title = title;
+        this.images=images;
+        this.decription=decription;
+        this.price=price;
+        this.images=images;
+        this.publisherModel=publisherModel;
+        this.city=city;
+        this.isFollow=isFollow;
+        this.isSelfPublished=isSelfPublished;
+        
+    }
+
+  }
+
+
+export {Service,ServiceDetails} 

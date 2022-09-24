@@ -43,7 +43,7 @@ const getAllPosts = async (req, res) => {
    const { skip, limit } = paginate(1,100)
      let userFollowing= await userModel.findById( req.userId ).select('following')
      userFollowing=userFollowing.following.map(x => x.toString())
-     userFollowing.push(req.userId)
+
      const postsDb = await postModel.find({ "createdBy": { "$in": userFollowing } } ).sort([['createdAt', -1]]).limit(limit).skip(skip).select('_id title media createdAt likes comments').populate([      
         {
             path: 'createdBy',

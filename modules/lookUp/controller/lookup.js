@@ -36,7 +36,7 @@ const getAllCities = async (req, res) => {
 
      var cities=[];
      citiesDb.forEach(function(obj){
-       cities.push(new BaseModel(obj._id,obj[""+name+""],obj.image))
+       cities.push(new BaseModel(obj._id,obj[""+name+""]))
    });
     res.json(new ResponseModel(cities, true, ""))
 }
