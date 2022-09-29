@@ -1,5 +1,6 @@
 
-
+import pkg from 'mongoose';
+const { Schema } = pkg;
 import postModel from "../../../DB/models/postModels/post.js";
 import userModel from "../../../DB/models/user.js";
 import paginate from "../../../service/paginate.js";
@@ -44,7 +45,8 @@ const getAllPosts = async (req, res) => {
      let userFollowing= await userModel.findById( req.userId ).select('following')
      userFollowing=userFollowing.following.map(x => x.toString())
 
-     const postsDb = await postModel.find({ "createdBy": { "$in": userFollowing } } ).sort([['createdAt', -1]]).limit(limit).skip(skip).select('_id title media createdAt likes comments').populate([      
+
+     let  followerPostsDb = await postModel.find({ "createdBy": { "$in": userFollowing } } ).sort([['createdAt', -1]]).select('_id title media createdAt likes comments').populate([      
         {
             path: 'createdBy',
             select: "_id  firstName lastName personalImage"
@@ -57,8 +59,25 @@ const getAllPosts = async (req, res) => {
          }
         
     ])
+
+    // let  otherPostsDb = await postModel.find(  {
+    //     $and: [{"createdBy": { "$ne": userFollowing } } , {"createdBy": { "$ne": req.userId } }
+    //     ]}).sort([['createdAt', -1]]).select('_id title media createdAt likes comments').populate([      
+    //     {
+    //         path: 'createdBy',
+    //         select: "_id  firstName lastName personalImage"
+    //      },{
+    //         path: 'likes',
+    //         match: {
+    //             userId: req.userId
+    //         },
+    //         select: "react"
+    //      }
+        
+    // ])
+  // var allPosts= followerPostsDb.concat(otherPostsDb)
     var Posts=[];
-    postsDb.forEach(function(obj){
+    alfollowerPostsDblPosts.forEach(function(obj){
         let selfReact=null,reactId=null;;
         if (obj.likes.length >0)
         {
@@ -71,7 +90,7 @@ const getAllPosts = async (req, res) => {
        )
     });
 
-    res.status(200).json(new ResponseModel(Posts,true,""))
+    res.status(200).json(new ResponseModel(allPosts,true,""))
 }
 
 
