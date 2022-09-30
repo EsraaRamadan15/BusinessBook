@@ -83,10 +83,6 @@ const getServiceDetails = async (req, res) => {
             }
           serviceDetails.city= new BaseModel(serviceDb.cityId._id,serviceDb.cityId[""+name+""])    
         }
-
-
-
-
     res.status(200).json(new ResponseModel(serviceDetails, true, ""))
 }
 

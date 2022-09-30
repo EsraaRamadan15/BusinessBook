@@ -89,7 +89,6 @@ const getAllPosts = async (req, res) => {
             new UserDataModel(obj.createdBy._id,obj.createdBy.firstName +" "+ obj.createdBy.lastName,obj.createdBy.personalImage))
        )
     });
-
     res.status(200).json(new ResponseModel(allPosts,true,""))
 }
 
